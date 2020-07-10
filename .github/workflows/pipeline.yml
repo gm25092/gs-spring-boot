@@ -9,5 +9,15 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: List Dir
-      run:  cd complete && mvn clean package
+
+    - name: Run Maven
+      run:  cd complete && mvn -ntp clean package
+
+    - name: Create Staging dir  
+      run: mkdir staging && cp complete/target/*.jar staging
+    
+    - name: Upload Artifact  
+      uses: actions/upload-artifact@v1
+      with:
+        name: Package
+        path: staging
