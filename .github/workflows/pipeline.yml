@@ -2,16 +2,19 @@ name: Pipeline CI/CD
 
 on: [push]
 
+env:
+  VERSION: "0.0.2"
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v1
 
     - name: Run Maven
-      run:  cd complete && mvn -ntp clean package
+      run:  cd complete && mvn -ntp versions:set -DnewVersion=$VERSION && mvn -ntp clean package
 
     - name: Create Staging dir  
       run: mkdir staging && cp complete/target/*.jar staging
@@ -19,5 +22,5 @@ jobs:
     - name: Upload Artifact  
       uses: actions/upload-artifact@v1
       with:
-        name: Package
+        name: package-$VERSION
         path: staging
