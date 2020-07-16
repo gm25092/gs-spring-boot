@@ -13,6 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Show Current Git Commit
+      run:  git rev-parse HEAD
+
     - name: Run Maven
       run:  cd complete && mvn -ntp versions:set -DnewVersion=$VERSION && mvn -ntp clean package
 
